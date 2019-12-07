@@ -5,13 +5,13 @@ const parsedBody = require('body-parser');
 const mongoose = require('mongoose');
 const userRoutes = require('./routes/user');
 const productRoutes = require('./routes/product');
+const orderRoutes = require('./routes/order');
 
 const url = "mongodb://localhost:27017/ecomm";
 const port = process.env.PORT || 3000;
 
 mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true });
-let db = mongoose.connection;
-
+const db = mongoose.connection;
 db.once("open", () => console.log("Connected to database"));
 db.on("error", console.error.bind(console, "MongoDB connection error: "));
 
@@ -31,6 +31,7 @@ app.use((req, res, next) => {
 
 app.use('/user', userRoutes);
 app.use('/product', productRoutes);
+app.use('/order', orderRoutes);
 // Handle Error Requests
 app.use((req, res, next) => {
     const error = { message: 'Not Found', status: 404 };
