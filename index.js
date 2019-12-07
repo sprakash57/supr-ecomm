@@ -4,6 +4,7 @@ const logger = require('morgan');
 const parsedBody = require('body-parser');
 const mongoose = require('mongoose');
 const userRoutes = require('./routes/user');
+const productRoutes = require('./routes/product');
 
 const url = "mongodb://localhost:27017/ecomm";
 const port = process.env.PORT || 3000;
@@ -29,6 +30,7 @@ app.use((req, res, next) => {
 })
 
 app.use('/user', userRoutes);
+app.use('/product', productRoutes);
 // Handle Error Requests
 app.use((req, res, next) => {
     const error = { message: 'Not Found', status: 404 };
