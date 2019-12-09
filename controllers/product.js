@@ -22,7 +22,6 @@ exports.getAllProducts = (req, res, next) => {
 }
 
 exports.createProduct = (req, res, next) => {
-    console.log('req--->', req.body);
     const product = new Product({
         _id: new mongoose.Types.ObjectId(),
         name: req.body.name,
@@ -58,7 +57,6 @@ exports.getProduct = (req, res, next) => {
 }
 
 exports.updateProduct = (req, res, next) => {
-    console.log('req--->', req.body);
     const { id } = req.params;
     Product.update({ _id: id }, { $set: req.body })
         .exec()
