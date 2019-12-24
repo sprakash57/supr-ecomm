@@ -41,14 +41,12 @@ exports.requireLogin = expressJwt({
 })
 
 exports.isAuthUser = (req, res, next) => {
-    console.log('isAuth')
     const user = req.profile && req.auth && req.profile._id == req.auth._id
     if (!user) return res.status(403).json({ error: 'Accees denied' });
     next();
 }
 
 exports.isAdmin = (req, res, next) => {
-    console.log('isAdmin', req.product)
     if (req.profile.role === 0) {
         return res.status(403).json({ error: 'Admin resource! Access denied' });
     }

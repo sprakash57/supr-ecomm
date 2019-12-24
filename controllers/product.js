@@ -1,38 +1,50 @@
 const fs = require('fs');
+const formidable = require('formidable');
 const mongoose = require('mongoose');
 const _ = require('lodash');
 const Product = require('../models/product');
 const { errorHandler } = require('../utils/dbErrorHandler');
 
 exports.create = (req, res) => {
-    const product = new Product({
-        _id: new mongoose.Types.ObjectId(),
-        name: req.body.name,
-        price: req.body.price,
-        quantity: req.body.quantity,
-        description: req.body.description,
-        category: req.body.category,
-        shipping: req.body.shipping,
-        image: req.file.path
-    })
-    if (req.file && req.file.size > 1000000) {
-        return res.status(400).json({ error: 'Image size is more than 1 MB' });
-    }
-    const { name, price, quantity, description, category, shipping } = req.body;
-    if (!name || !price || !quantity || !description || !category || !shipping) {
-        return res.status(400).json({ error: 'All fields are mandatory' });
-    }
-    product.save((err, item) => {
-        if (err) return res.status(400).json({ error: errorHandler(err) });
-        res.json({
-            message: 'Product added successfully',
-            product: {
-                _id: item._id,
-                name: item.name,
-                image: item.image
+    let form = new formidable.IncomingForm();
+    form.keepExtensions = true;
+    form.parse(req, (err, fields, files) => {
+        if (err) {
+            return res.status(400).json({
+                error: 'Image could not be uploaded'
+            });
+        }
+        // check for all fields
+        const { name, description, price, category, quantity, shipping } = fields;
+
+        if (!name || !description || !price || !category || !quantity || !shipping) {
+            return res.status(400).json({
+                error: 'All fields are required'
+            });
+        }
+
+        let product = new Product(fields);
+
+        if (files.photo) {
+            if (files.photo.size > 1000000) {
+                return res.status(400).json({
+                    error: 'Image should be less than 1mb in size'
+                });
             }
-        })
-    })
+            product.photo.data = fs.readFileSync(files.photo.path);
+            product.photo.contentType = files.photo.type;
+        }
+
+        product.save((err, result) => {
+            if (err) {
+                console.log('PRODUCT CREATE ERROR ', err);
+                return res.status(400).json({
+                    error: errorHandler(err)
+                });
+            }
+            res.json(result);
+        });
+    });
 }
 
 exports.read = (req, res) => {
@@ -41,36 +53,38 @@ exports.read = (req, res) => {
 }
 
 exports.updateProduct = (req, res) => {
-    console.log(req.body);
-    const product = {
-        name: req.body.name,
-        price: req.body.price,
-        quantity: req.body.quantity,
-        description: req.body.description,
-        category: req.body.category,
-        shipping: req.body.shipping,
-        image: req.file.path
-    }
-    console.log('product', product);
-    if (req.file && req.file.size > 1000000) {
-        return res.status(400).json({ error: 'Image size is more than 1 MB' });
-    }
-    const { name, price, quantity, description, category, shipping } = req.body;
-    if (!name || !price || !quantity || !description || !category || !shipping || !req.file.path) {
-        return res.status(400).json({ error: 'All fields are mandatory' });
-    }
-    Product.update({ _id: req.product._id }, product, (err, item) => {
-        if (err) return res.status(400).json({ error: errorHandler(err) });
-        res.json({
-            message: 'Product updated successfully',
-            product: {
-                _id: item._id,
-                name: item.name,
-                image: item.image
+    let form = new formidable.IncomingForm();
+    form.keepExtensions = true;
+    form.parse(req, (err, fields, files) => {
+        if (err) {
+            return res.status(400).json({
+                error: 'Image could not be uploaded'
+            });
+        }
+
+        let product = req.product;
+        product = _.extend(product, fields);
+
+        if (files.photo) {
+            if (files.photo.size > 1000000) {
+                return res.status(400).json({
+                    error: 'Image should be less than 1mb in size'
+                });
             }
-        })
-    })
-}
+            product.photo.data = fs.readFileSync(files.photo.path);
+            product.photo.contentType = files.photo.type;
+        }
+
+        product.save((err, result) => {
+            if (err) {
+                return res.status(400).json({
+                    error: errorHandler(err)
+                });
+            }
+            res.json(result);
+        });
+    });
+};
 
 exports.deleteProduct = (req, res) => {
     const product = req.product;
@@ -82,8 +96,11 @@ exports.deleteProduct = (req, res) => {
 
 exports.productById = (req, res, next, id) => {
     Product.findById(id).exec((err, product) => {
-        if (err || !product) return res.status(404).json({ error: 'Product not found' });
+        if (err || !product) {
+            return res.status(404).json({ error: 'Product not found' })
+        }
         req.product = product;
+        console.log('product', req.product)
         next();
     })
 }
