@@ -1,5 +1,8 @@
 import React from 'react';
+import Layout from '../common/Layout';
 
-const Login = () => (<div>Login</div>)
+const Signin = () => (
+    <Layout title='Signin' description='Sigin to eComm app'></Layout>
+)
 
-export default Login;
+export default Signin;
