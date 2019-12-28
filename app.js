@@ -4,6 +4,7 @@ const logger = require('morgan');
 const parsedBody = require('body-parser');
 const parsedCookie = require('cookie-parser');
 const mongoose = require('mongoose');
+const cors = require('cors');
 const authRoutes = require('./routes/auth');
 const userRoutes = require('./routes/user');
 const categoryRoutes = require('./routes/category');
@@ -17,16 +18,18 @@ mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true, useCrea
     .then(() => console.log('Connected to DB'))
     .catch(err => console.log('DB connection error: ', err))
 
-//middlewares
+//Middlewares
 app.use(logger('dev'));
 app.use(parsedBody.json());
 app.use(parsedBody.urlencoded({ extended: true }));
 app.use(parsedCookie());
+app.use(cors());
 
+//Routes
 app.use('/api', authRoutes);
 app.use('/api/user', userRoutes);
-app.use('/api', categoryRoutes);
-app.use('/api/product', productRoutes);
+app.use('/api/category', categoryRoutes);
+app.use('/api', productRoutes);
 app.use('/order', orderRoutes);
 
 //Invalid token error handler

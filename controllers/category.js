@@ -20,3 +20,27 @@ exports.create = (req, res) => {
 exports.read = (req, res) => {
     return res.json(req.category);
 }
+
+exports.update = (req, res) => {
+    const category = req.category;
+    category.name = req.body.name;
+    category.save((err, item) => {
+        if (err) return res.status(400).json({ error: errorHandler(err) });
+        res.json({ message: 'Category updated', item });
+    })
+}
+
+exports.remove = (req, res) => {
+    const category = req.category;
+    category.remove((err, item) => {
+        if (err) return res.status(400).json({ error: errorHandler(err) });
+        res.json({ message: 'Category deleted', item });
+    })
+}
+
+exports.list = (req, res) => {
+    Category.find().exec((err, item) => {
+        if (err) return res.status(400).json({ error: errorHandler(err) });
+        res.json(item);
+    })
+}
