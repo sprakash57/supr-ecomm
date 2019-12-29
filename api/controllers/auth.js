@@ -17,10 +17,10 @@ exports.register = (req, res) => {
 
 exports.login = (req, res) => {
     const { errors, isValid } = validateLogin(req.body);
-    if (!isValid) return res.status(400).json({ errors });
+    if (!isValid) return res.status(400).json({ message: '', errors });
     User.findOne({ email: req.body.email }, (err, user) => {
-        if (err || !user) return res.status(404).json({ errors: 'User not found' })
-        if (!user.authenticate(req.body.password)) return res.status(401).json({ errors: 'User not authorized' })
+        if (err || !user) return res.status(404).json({ message: 'User not found', errors: '' })
+        if (!user.authenticate(req.body.password)) return res.status(401).json({ message: 'User not authorized', errors: '' })
         //Authenticate if user is found
         const token = jwt.sign({ _id: user._id }, process.env.JWT_KEY);
         res.cookie('token', token, { expire: new Date() + 9999 });

@@ -1,4 +1,4 @@
-ecomm-client/node_modules
-ecomm-api/node_modules
+client/node_modules
+api/node_modules
 images
 .env
