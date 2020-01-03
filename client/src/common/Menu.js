@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link, withRouter } from 'react-router-dom';
-import { logout, isAuthenticated } from '../auth/index';
+import { logout, isAuthenticated } from '../utils/auth';
 
 const isActive = (history, path) => {
     if (history.location.pathname === path) return { color: '#ff9900' };
@@ -12,6 +12,9 @@ const Menu = ({ history }) => {
         <ul className="nav nav-tabs bg-primary">
             <li className="nav-item">
                 <Link className="nav-link" to="/" style={isActive(history, '/')}>Home</Link>
+            </li>
+            <li className="nav-item">
+                <Link className="nav-link" to="/shop" style={isActive(history, '/shop')}>Shop</Link>
             </li>
             {isAuthenticated() && isAuthenticated().user.role === 1 ? (
                 <li className="nav-item">

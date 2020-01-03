@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Layout from '../common/Layout';
-import { login, authenticate, isAuthenticated } from '../auth/index';
+import { login, authenticate, isAuthenticated } from '../utils/auth';
 import { Redirect } from 'react-router-dom';
 import Loader from '../common/Loader';
 
@@ -8,7 +8,7 @@ import Loader from '../common/Loader';
 const Login = () => {
     const { user } = isAuthenticated();
     const [fields, setFields] = useState({
-        email: 'test1@dummy.com', password: '123456', error: '', message: '', redirectToOrigin: false, loading: false
+        email: 'jhondoe@ecomm.in', password: '123456', error: '', message: '', redirectToOrigin: false, loading: false
     })
 
     const FeedBack = ({ error }) => {

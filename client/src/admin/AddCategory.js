@@ -1,49 +1,53 @@
 import React, { useState } from 'react';
 import Layout from '../common/Layout';
-import { isAuthenticated } from '../auth/index';
-import { createCategory } from './apiCalls'
+import { isAuthenticated } from '../utils/auth';
+import { createCategory } from '../utils/apiCalls'
+import { Link } from 'react-router-dom';
 
 const AddCategory = () => {
     const [name, setName] = useState('');
-    const [error, setError] = useState('');
     const [success, setSuccess] = useState(false);
     const [alert, setAlert] = useState(false);
 
     const { user, token } = isAuthenticated();
 
     const handleChange = e => {
-        setError('');
+        setAlert(false);
         setName(e.target.value);
     }
 
     const handleSubmit = e => {
         e.preventDefault();
-        setError('');
-        setSuccess(false);
-        setAlert(false);
         createCategory(user._id, token, { name })
             .then(data => {
                 if (data.error) {
-                    setError(data.error);
                     setSuccess(false);
                 } else {
-                    setError('');
                     setSuccess(true);
                 }
                 setAlert(true);
             })
     }
 
+    const GoBack = () => <Link to='/admin/dashboard'>Back</Link>
+
     const CategoryForm = () => (
         <>
             <div className="col-md-8 offset-md-2">
-                {alert && <ShowAlert />}
+                {alert && <ShowAlert success={success} />}
                 <form onSubmit={handleSubmit}>
                     <div className="form-group">
-                        <label className="text-muted">Name</label>
+                        <div className="row">
+                            <div className="col-md-11">
+                                <label className="text-muted">Name</label>
+                            </div>
+                            <div className="col-md-1">
+                                <GoBack />
+                            </div>
+                        </div>
                         <input type="text" className="form-control" onChange={handleChange} value={name} autoFocus />
                     </div>
-                    <button className="btn btn-outline-primary">Create</button>
+                    <button className="btn btn-outline-primary mr-3">Create</button>
                 </form>
             </div>
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import Layout from '../common/Layout';
-import { isAuthenticated } from '../auth/index';
+import { isAuthenticated } from '../utils/auth';
 
 const AdminBoard = () => {
     const AdminLinks = () => (
@@ -12,7 +12,7 @@ const AdminBoard = () => {
                     <Link className='nav-link' to='/create/category'>Create Category</Link>
                 </li>
                 <li className="list-group-item">
-                    <Link className='nav-link' to='/crewate/product'>Create Product</Link>
+                    <Link className='nav-link' to='/create/product'>Create Product</Link>
                 </li>
             </ul>
         </div>

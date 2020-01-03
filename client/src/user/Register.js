@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import Layout from '../common/Layout';
-import { register } from '../auth/index';
+import { register } from '../utils/auth';
 import Loader from '../common/Loader';
 
 

@@ -22,3 +22,19 @@ code {
 .red-border{
   border: 1px solid #dc3545;
 }
+
+.btn, .jumbotron, .nav :hover{
+  border-radius: 0px;
+}
+.product-img{
+  min-height: 100px;
+}
+.jumbotron h2 {
+  margin-top: -20px;
+}
+
+@media only screen and (max-width: 600px){
+  .jumbotron h2 {
+    margin-top: 10px;
+  }
+}

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import Layout from '../common/Layout';
-import { isAuthenticated } from '../auth/index';
+import { isAuthenticated } from '../utils/auth';
 
 const UserBoard = () => {
     const UserLinks = () => (

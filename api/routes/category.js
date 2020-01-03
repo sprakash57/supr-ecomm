@@ -3,11 +3,11 @@ const { create, read, categoryById, update, remove, list } = require('../control
 const { requireLogin, isAuthUser, isAdmin } = require('../controllers/auth');
 const { userById } = require('../controllers/user');
 
-router.get('/:categoryId', read);
+router.get('/category/:categoryId', read);
 router.get('/categories', list);
-router.post('/create/:userId', requireLogin, isAuthUser, isAdmin, create);
-router.put('/:categoryId/:userId', requireLogin, isAuthUser, isAdmin, update);
-router.delete('/:categoryId/:userId', requireLogin, isAuthUser, isAdmin, remove);
+router.post('/category/create/:userId', requireLogin, isAuthUser, isAdmin, create);
+router.put('/category/:categoryId/:userId', requireLogin, isAuthUser, isAdmin, update);
+router.delete('/category/:categoryId/:userId', requireLogin, isAuthUser, isAdmin, remove);
 
 router.param('categoryId', categoryById);
 router.param('userId', userById);
