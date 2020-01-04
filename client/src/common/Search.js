@@ -7,11 +7,10 @@ const Search = ({ handleAlert }) => {
         categories: [],
         category: '',
         search: '',
-        results: [],
-        searched: false
+        results: []
     });
 
-    const { categories, category, search, results, searched } = data
+    const { categories, category, search, results } = data
 
     const loadCategories = () => {
         getCategories().then(resp => {
@@ -29,11 +28,11 @@ const Search = ({ handleAlert }) => {
                 .then(resp => {
                     if (resp.error) {
                         handleAlert(resp.error);
-                        setData({ ...data, results: [], searched: true })
+                        setData({ ...data, results: [] })
                     }
                     else {
-                        setData({ ...data, results: resp, searched: true });
-                        handleAlert('', results.length);
+                        setData({ ...data, results: resp });
+                        handleAlert('', resp.length);
                     }
                 })
         }
@@ -45,7 +44,8 @@ const Search = ({ handleAlert }) => {
     }
 
     const handleChange = name => e => {
-        setData({ ...data, [name]: e.target.value, searched: false });
+        handleAlert('');
+        setData({ ...data, [name]: e.target.value });
     }
 
     const searchForm = () => {
@@ -55,7 +55,7 @@ const Search = ({ handleAlert }) => {
                     <div className="input-group input-group-lg">
                         <div className="input-group-prepend">
                             <select onChange={handleChange('category')} className="btn mr-2">
-                                <option value="All">Pick category</option>
+                                <option value="All">All</option>
                                 {categories && categories.map((c, i) => <option key={i} value={c._id}>{c.name}</option>)}
                             </select>
                         </div>

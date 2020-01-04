@@ -6,7 +6,7 @@ const { errorHandler } = require('../utils/dbErrorHandler');
 
 
 exports.productById = (req, res, next, id) => {
-    Product.findById(id).exec((err, product) => {
+    Product.findById(id).populate("category").exec((err, product) => {
         if (err || !product) {
             return res.status(404).json({ error: 'Product not found' })
         }
@@ -24,6 +24,7 @@ exports.list = (req, res) => {
         .sort([[sortBy, order]])
         .limit(limit)
         .exec((err, items) => {
+            console.log(items);
             if (err) return res.status(400).json({ error: 'Product not found' });
             res.json(items);
         })
@@ -140,7 +141,7 @@ exports.create = (req, res) => {
 }
 
 exports.read = (req, res) => {
-    req.product.image = undefined;
+    req.product.photo = undefined;
     return res.json(req.product)
 }
 

@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import Layout from './Layout';
+import Layout from '../common/Layout';
 import { getCategories, getFilteredProducts } from '../utils/apiCalls';
-import Checkbox from './Checkbox';
+import Checkbox from '../common/Checkbox';
 import { prices } from '../utils/prices'
-import Radiobox from './Radiobox';
-import Card from './Card';
-import Loader from './Loader';
+import Radiobox from '../common/Radiobox';
+import Card from '../common/Card';
+import Loader from '../common/Loader';
 
 const ShowAlert = ({ error }) => {
     if (error) return <div className="alert alert-danger text-center">{error}</div>
@@ -32,7 +32,6 @@ const Shop = () => {
                 setSize(resp.size);
                 setSkip(0);
             }
-
         })
     }
 
@@ -66,7 +65,6 @@ const Shop = () => {
             let priceValue = handlePrice(filters);
             newFilters.filters[filterBy] = priceValue;
         }
-        console.log(skip, limit, selectedFilters.filters);
         loadFilteredProducts(0, limit, selectedFilters.filters)
         setSelectedFilters(newFilters);
     }
@@ -108,7 +106,9 @@ const Shop = () => {
                     <h4 className='mb-4'>Products</h4>
                     <div className="row">
                         {result && result.map((item, i) => (
-                            <Card key={i} product={item} />
+                            <div key={i} className="col-4 mb-3">
+                                <Card product={item} />
+                            </div>
                         ))}
                     </div>
                     <hr />

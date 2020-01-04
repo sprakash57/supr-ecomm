@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import Layout from './Layout';
+import Layout from '../common/Layout';
 import { getProducts } from '../utils/apiCalls';
-import Card from './Card';
-import Search from './Search';
+import Card from '../common/Card';
+import Search from '../common/Search';
 
 const ShowAlert = ({ error }) => {
-    if (error) return <div className="alert alert-danger text-center">{error}</div>
+    if (error.size === 0 && error.msg !== '') return <div className="alert alert-danger text-center">{error.msg}</div>
+    else if (error.size) return <div className="alert alert-success text-center">{error.size} result(s) found</div>
     return <></>
 }
 
@@ -23,12 +24,14 @@ const Home = () => {
 
     const loadProdByArrival = () => {
         getProducts('createdAt').then(data => {
-            if (data.error) setError(data.error);
+            if (data.error) setError({ ...error, msg: data.error });
             else setProdByArrival(data)
         })
     }
 
-    const showAlert = (msg, size = 0) => setError({ msg, size });
+    const showAlert = (msg, size = 0) => {
+        setError({ ...error, msg, size });
+    }
 
     useEffect(() => {
         loadProdBySell();
@@ -40,11 +43,19 @@ const Home = () => {
             <Search handleAlert={showAlert} />
             <h2 className="mb-4">Best Sellers</h2>
             <div className="row">
-                {prodBySell.map((item, index) => <Card key={index} product={item} />)}
+                {prodBySell.map((item, index) => (
+                    <div key={index} className="col-4 mb-3">
+                        <Card product={item} />
+                    </div>
+                ))}
             </div>
             <h2 className="mb-4">New Arrivals</h2>
             <div className="row">
-                {prodByArrival.map((item, index) => <Card key={index} product={item} />)}
+                {prodByArrival.map((item, index) => (
+                    <div key={index} className="col-4 mb-3">
+                        <Card product={item} />
+                    </div>
+                ))}
             </div>
         </Layout>
     )

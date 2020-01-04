@@ -90,7 +90,6 @@ const AddProduct = () => {
                     category: '',
                     error: '',
                     createdProduct: data.name,
-                    formData: ''
                 });
                 setAlert(true);
             }

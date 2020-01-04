@@ -34,6 +34,12 @@ export const getCategories = () => {
         .catch(err => console.log(err));
 }
 
+export const getOneProduct = productId => {
+    return fetch(`${API}/product/${productId}`)
+        .then(resp => resp.json())
+        .catch(err => console.log(err));
+}
+
 export const getProducts = (sortBy) => {
     return fetch(`${API}/products?sortBy=${sortBy}&order=desc&limit=6`)
         .then(resp => resp.json())
@@ -50,6 +56,12 @@ export const getFilteredProducts = (skip, limit, filters = {}) => {
         },
         body: JSON.stringify(data)
     })
+        .then(resp => resp.json())
+        .catch(err => console.log(err))
+}
+
+export const getRelatedProducts = prodId => {
+    return fetch(`${API}/products/related/${prodId}`)
         .then(resp => resp.json())
         .catch(err => console.log(err))
 }
