@@ -72,3 +72,16 @@ export const searchList = params => {
         .then(resp => resp.json())
         .catch(err => console.log(err))
 }
+
+export const getBrainTreeClientToken = (userId, token) => {
+    return fetch(`${API}/payment/getToken/${userId}`, {
+        method: 'GET',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        }
+    })
+        .then(resp => resp.json())
+        .catch(err => console.log(err));
+}
