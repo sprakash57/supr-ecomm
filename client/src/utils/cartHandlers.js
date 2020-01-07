@@ -56,3 +56,10 @@ export const getCart = () => {
     }
     return [];
 }
+
+export const emptyCart = next => {
+    if (typeof winodow !== "undefined") {
+        localStorage.removeItem('cart');
+        next();
+    }
+}

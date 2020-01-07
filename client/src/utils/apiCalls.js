@@ -85,3 +85,17 @@ export const getBrainTreeClientToken = (userId, token) => {
         .then(resp => resp.json())
         .catch(err => console.log(err));
 }
+
+export const processPayment = (userId, token, paymentData) => {
+    return fetch(`${API}/payment/process/${userId}`, {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify(paymentData)
+    })
+        .then(resp => resp.json())
+        .catch(err => console.log(err));
+}

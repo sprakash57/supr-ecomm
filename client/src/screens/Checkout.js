@@ -1,16 +1,25 @@
 import React, { useState, useEffect } from 'react';
 import { isAuthenticated } from '../utils/auth';
 import { Link } from 'react-router-dom';
-import { getBrainTreeClientToken } from '../utils/apiCalls';
+import { getBrainTreeClientToken, processPayment } from '../utils/apiCalls';
 import DropIn from 'braintree-web-drop-in-react';
+import { emptyCart } from '../utils/cartHandlers';
 
-const ShowAlert = ({ error }) => (
-    <div className="alert alert-danger" style={{ display: error ? '' : 'none' }}>{error}</div>
-)
+const ShowAlert = ({ error, success }) => {
+    if (error) return <div className="alert alert-danger">{error}</div>
+    else if (success) return <div className="alert alert-success">Payment successful!!</div>
+    return null;
+}
+
+const Loader = ({ loading }) => {
+    if (loading) return <h2>Loading...</h2>
+    return <></>;
+}
 
 const Checkout = ({ products }) => {
     const [data, setData] = useState({
         success: false,
+        loading: false,
         clientToken: null,
         error: '',
         instace: {},
@@ -39,12 +48,17 @@ const Checkout = ({ products }) => {
     }
 
     const payAmount = () => {
+        setData({ ...data, loading: true });
         //send nonce to the server. nonce = data.instance.requestPaymentMethod()
-        let nonce;
         let getNonce = data.instace.requestPaymentMethod().then(resp => {
-            console.log(resp);
-            nonce = resp.nonce;
-            console.log('send nounce and total to process', nonce, getTotal())
+            const paymentData = {
+                paymentMethodNonce: resp.nonce,
+                amount: getTotal(products)
+            };
+            processPayment(userId, token, paymentData).then(payResp => {
+                setData({ ...data, success: payResp.success, loading: false });
+                emptyCart(() => console.log('payment success -> empty cart'))
+            }).catch(error => console.log(error))
         }).catch(err => {
             console.log('Drop in:', err);
             setData({ ...data, error: err.message })
@@ -60,10 +74,15 @@ const Checkout = ({ products }) => {
             {data.clientToken !== null && products.length > 0 ? (
                 <div>
                     <DropIn
-                        options={{ authorization: data.clientToken }}
+                        options={{
+                            authorization: data.clientToken,
+                            paypal: {
+                                flow: 'vault'
+                            }
+                        }}
                         onInstance={instace => data.instace = instace}
                     />
-                    <button className="btn btn-success" onClick={payAmount}>Pay</button>
+                    <button className="btn btn-success btn-block" onClick={payAmount}>Pay</button>
                 </div>
             ) : null}
         </div>
@@ -71,7 +90,8 @@ const Checkout = ({ products }) => {
 
     return (
         <div>
-            <ShowAlert error={data.error} />
+            <ShowAlert error={data.error} success={data.success} />
+            <Loader loading={data.loading} />
             <h2>Total: &#8377;{getTotal()}</h2>
             {showCheckout()}
         </div>
