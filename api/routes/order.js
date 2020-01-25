@@ -1,11 +1,9 @@
 const router = require('express').Router();
-const authService = require('../authService');
-const OrderController = require('../controllers/order');
+const { createOrder } = require('../controllers/order');
+const { requireLogin, isAuthUser } = require('../controllers/auth');
+const { userById } = require('../controllers/user');
 
-router.get('/', authService, OrderController.getAllOrders);
-router.post('/', authService, OrderController.createOneOrder);
-router.get('/:id', authService, OrderController.getOrder);
-router.patch('/:id', authService, OrderController.updateOrder);
-router.delete('/:id', authService, OrderController.deleteOrder);
+router.post('/order/create/:userId', requireLogin, isAuthUser, createOrder);
 
+router.param('userId', userById);
 module.exports = router;

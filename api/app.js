@@ -31,8 +31,8 @@ app.use('/api', authRoutes);
 app.use('/api/user', userRoutes);
 app.use('/api', categoryRoutes);
 app.use('/api', productRoutes);
-app.use('/order', orderRoutes);
 app.use('/api', paymentRoutes);
+app.use('/api', orderRoutes);
 
 //Invalid token error handler
 app.use((err, req, res, next) => {
