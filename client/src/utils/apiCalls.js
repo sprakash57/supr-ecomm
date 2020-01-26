@@ -101,7 +101,6 @@ export const processPayment = (userId, token, paymentData) => {
 }
 
 export const createOrder = (userId, token, orderData) => {
-    console.log('0rderData', orderData);
     return fetch(`${API}/order/create/${userId}`, {
         method: 'POST',
         headers: {
@@ -116,4 +115,26 @@ export const createOrder = (userId, token, orderData) => {
             return resp.json()
         })
         .catch(err => console.log(err));
+}
+
+export const listOrders = (userId, token) => {
+    return fetch(`${API}/order/list/${userId}`, {
+        method: 'GET',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        }
+    }).then(resp => resp.json()).catch(err => console.log(err));
+}
+
+export const getStatus = (userId, token) => {
+    return fetch(`${API}/order/status/${userId}`, {
+        method: 'GET',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        }
+    }).then(resp => resp.json()).catch(err => console.log(err));
 }

@@ -21,7 +21,7 @@ export const updateItems = (id, count) => {
         if (localStorage.getItem('cart')) cart = JSON.parse(localStorage.getItem('cart'));
         cart.map((prod, i) => {
             if (prod._id === id) {
-                cart[i].count = count;
+                cart[i].count = parseInt(count);
             }
         })
         localStorage.setItem('cart', JSON.stringify(cart));
@@ -33,8 +33,8 @@ export const removeItem = id => {
     if (typeof window !== 'undefined') {
         if (localStorage.getItem('cart')) {
             cart = JSON.parse(localStorage.getItem('cart'));
-            cart.map(prod => {
-                if (prod._id === id) cart.splice(prod, 1)
+            cart.map((prod, i) => {
+                if (prod._id === id) cart.splice(i, 1)
             });
         }
         localStorage.setItem('cart', JSON.stringify(cart));

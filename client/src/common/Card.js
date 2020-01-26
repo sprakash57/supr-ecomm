@@ -4,13 +4,6 @@ import ShowImage from './ShowImage';
 import moment from 'moment';
 import { addItem, updateItems, removeItem } from '../utils/cartHandlers';
 
-const ShowStock = ({ quantity }) => {
-    if (quantity > 0) {
-        return <span className="badge-primary badge-pill">{quantity} available</span>
-    }
-    return <span className="badge-primary badge-pill">Out of stock</span>
-}
-
 const Card = ({ product, viewProductBtn = true, addToCartBtn = true, modifyCart = false, onRemoveItem }) => {
 
     const [redirect, setRedirect] = useState(false);
@@ -39,13 +32,20 @@ const Card = ({ product, viewProductBtn = true, addToCartBtn = true, modifyCart 
             return (
                 <div className="input-group mb-3">
                     <div className="input-group-prepend">
-                        <span className="input-group-text">Update</span>
+                        <span className="input-group-text">Quantity</span>
                     </div>
                     <input type="number" className="form-control" value={count} onChange={handleChange(product._id)} />
                 </div>
             )
         }
         return <></>
+    }
+
+    const showStock = (quantity) => {
+        if (quantity > 0) {
+            return <span className="badge-primary badge-pill">{quantity} available</span>
+        }
+        return <span className="badge-primary badge-pill">Out of stock</span>
     }
 
     return (
@@ -58,7 +58,7 @@ const Card = ({ product, viewProductBtn = true, addToCartBtn = true, modifyCart 
                 <p className='black-10'>&#8377;{product.price}</p>
                 <p className='black-9'>Category: {product.category && product.category.name}</p>
                 <p className='black-8'>Added {moment(product.createdAt).fromNow()}</p>
-                <ShowStock quantity={product.quantity} />
+                {showStock(product.quantity)}
                 <br />
                 <Link to={`/product/${product._id}`}>
                     {viewProductBtn && <button className="btn btn-primary mt-2 mb-2 mr-2">View Product</button>}

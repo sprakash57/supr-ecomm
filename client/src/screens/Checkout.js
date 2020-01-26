@@ -16,7 +16,7 @@ const Loader = ({ loading }) => {
     return <></>;
 }
 
-const Checkout = ({ products }) => {
+const Checkout = ({ products, onRemoveItem }) => {
     const [data, setData] = useState({
         success: false,
         loading: false,
@@ -66,21 +66,23 @@ const Checkout = ({ products }) => {
                     amount: parseInt(payResp.transaction.amount),
                     address: data.address
                 }
-                console.log('checkout ', orderData)
                 createOrder(userId, token, orderData)
                     .then(order => {
-                        console.log('order after', order);
-                        emptyCart(() => {
-                            console.log('payment success -> empty cart')
+                        if (typeof window !== 'undefined') {
+                            localStorage.removeItem('cart');
+                            onRemoveItem();
                             setData({ ...data, success: true, loading: false });
-                        })
+                        }
                     })
                     .catch(error => {
-                        console.log(error);
-                        setData({ loading: false });
+                        console.log('Create order error: ', error);
+                        setData({ ...data, loading: false });
                     });
 
-            }).catch(error => console.log(error))
+            }).catch(error => {
+                console.log('Payment error: ', error);
+                setData({ ...data, loading: false });
+            })
         }).catch(err => {
             console.log('Drop in:', err);
             setData({ ...data, error: err.message })
