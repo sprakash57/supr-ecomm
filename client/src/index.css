@@ -70,3 +70,7 @@ code {
   font-size: 12px;
   background: yellow;
 }
+
+.cursor-pointer{
+  cursor: pointer;
+}

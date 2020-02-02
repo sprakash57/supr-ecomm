@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Layout from '../common/Layout';
 import { isAuthenticated } from '../utils/auth'
-import { listOrders, getStatus } from '../utils/apiCalls'
+import { listOrders, getStatus, updateStatus } from '../utils/apiCalls'
 import moment from 'moment';
 
 const Orders = () => {
@@ -27,7 +27,11 @@ const Orders = () => {
     }
 
     const handleStatusChange = id => e => {
-        console.log('update status', e.target.value, id);
+        updateStatus(user._id, token, id, e.target.value)
+            .then(data => {
+                if (data.error) console.log('Status update failed');
+                else loadOrders();
+            })
     }
 
     useEffect(() => {

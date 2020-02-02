@@ -12,7 +12,7 @@ const productRoutes = require('./routes/product');
 const orderRoutes = require('./routes/order');
 const paymentRoutes = require('./routes/payment');
 
-const url = process.env.DB_URL || "mongodb://localhost:27017/ecomm";
+const url = "mongodb://localhost:27017/ecomm";
 const port = process.env.PORT || 8000;
 
 mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true })
@@ -28,7 +28,7 @@ app.use(cors());
 
 //Routes
 app.use('/api', authRoutes);
-app.use('/api/user', userRoutes);
+app.use('/api', userRoutes);
 app.use('/api', categoryRoutes);
 app.use('/api', productRoutes);
 app.use('/api', paymentRoutes);
