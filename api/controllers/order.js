@@ -20,6 +20,19 @@ exports.createOrder = (req, res) => {
                 error: errorHandler(error)
             });
         }
+        // send order details via email alert to admin
+        const emailData = {
+            to: '12prakash.sunny@gmail.com',
+            from: 'noreply@ecommerce.com',
+            subject: `A new order is received`,
+            html: `
+            <p>Customer name:</p>
+            <p>Total products: ${order.products.length}</p>
+            <p>Total cost: ${order.amount}</p>
+            <p>Login to dashboard to the order in detail.</p>
+        `
+        };
+        sgMail.send(emailData);
         res.json(data);
     });
 };
