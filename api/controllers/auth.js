@@ -1,4 +1,3 @@
-const mongoose = require('mongoose');
 const jwt = require('jsonwebtoken'); //Generate signed token
 const expressJwt = require('express-jwt'); //For authorization check
 const User = require('../models/user');

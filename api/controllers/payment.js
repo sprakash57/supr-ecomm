@@ -1,6 +1,5 @@
 require('dotenv').config();
 const braintree = require('braintree');
-const User = require('../models/user');
 
 const gateway = braintree.connect({
     environment: braintree.Environment.Sandbox,
