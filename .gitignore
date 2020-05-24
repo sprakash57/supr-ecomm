@@ -2,3 +2,4 @@ client/node_modules
 api/node_modules
 images
 .env
+client/build
