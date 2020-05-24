@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Layout from '../common/Layout';
 import { isAuthenticated } from '../utils/auth';
-import { Link } from 'react-router-dom';
 import { createProduct, getCategories } from '../utils/apiCalls';
 import Loader from '../common/Loader';
 
@@ -35,13 +34,10 @@ const AddProduct = () => {
         description,
         price,
         categories,
-        category,
-        shipping,
         quantity,
         loading,
         error,
         createdProduct,
-        redirectToProfile,
         formData
     } = values;
 

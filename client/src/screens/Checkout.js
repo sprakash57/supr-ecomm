@@ -3,7 +3,6 @@ import { isAuthenticated } from '../utils/auth';
 import { Link } from 'react-router-dom';
 import { getBrainTreeClientToken, processPayment, createOrder } from '../utils/apiCalls';
 import DropIn from 'braintree-web-drop-in-react';
-import { emptyCart } from '../utils/cartHandlers';
 
 const ShowAlert = ({ error, success }) => {
     if (error) return <div className="alert alert-danger">{error}</div>
@@ -13,7 +12,7 @@ const ShowAlert = ({ error, success }) => {
 
 const Loader = ({ loading }) => {
     if (loading) return <h2>Loading...</h2>
-    return <></>;
+    return null;
 }
 
 const Checkout = ({ products, onRemoveItem }) => {

@@ -4,7 +4,6 @@ import Layout from '../common/Layout';
 import { isAuthenticated } from '../utils/auth';
 import PurchaseHistory from './PurchaseHistory';
 import { getPurchaseHistory } from '../utils/apiCalls';
-import Loader from '../common/Loader';
 
 const UserBoard = () => {
 
@@ -14,7 +13,7 @@ const UserBoard = () => {
 
     useEffect(() => {
         getPurchaseHistory(_id, token).then(data => {
-            if (data.error) console.log('user error', data.error);
+            if (data.error) alert(data.error);
             setHistory(data);
         })
     }, [])

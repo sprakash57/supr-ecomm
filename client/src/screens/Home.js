@@ -19,14 +19,14 @@ const Home = () => {
         getProducts('sold').then(data => {
             if (data.error) setError({ ...error, msg: data.error });
             else setProdBySell(data)
-        })
+        }).catch(err => setError({ ...error, msg: "INTERNAL SERVER ERROR" }))
     }
 
     const loadProdByArrival = () => {
         getProducts('createdAt').then(data => {
             if (data.error) setError({ ...error, msg: data.error });
             else setProdByArrival(data)
-        })
+        }).catch(err => setError({ ...error, msg: "INTERNAL SERVER ERROR" }))
     }
 
     const showAlert = (msg, size = 0) => {
@@ -60,7 +60,5 @@ const Home = () => {
         </Layout>
     )
 }
-
-
 
 export default Home;

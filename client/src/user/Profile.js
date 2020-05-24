@@ -12,7 +12,7 @@ const Profile = ({ match }) => {
         error: false,
         success: false
     })
-    const { name, email, password, error, success } = values;
+    const { name, email, password, success } = values;
     const { token } = isAuthenticated();
 
     const init = userId => {

@@ -19,7 +19,7 @@ const Search = ({ handleAlert }) => {
                 setData({ ...data, categories: resp });
                 handleAlert('');
             }
-        })
+        }).catch(err => alert('Something is wrong on server side'))
     }
 
     const searchData = () => {
