@@ -64,7 +64,7 @@ const Orders = () => {
     )
 
     return (
-        <Layout title='Orders' description={`Good day ${user.name}. You can manage all orders here`} className='container-fluid'>
+        <Layout title='Orders' description={`Hello ${user.name}. You can manage all orders here`} className='container-fluid'>
             <div className="row">
                 <div className="col-md-8 offset-md-2">
                     {ordersCount()}

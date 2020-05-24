@@ -21,18 +21,47 @@ exports.createOrder = (req, res) => {
             });
         }
         // send order details via email alert to admin
-        const emailData = {
+        const emailDataToAdmin = {
             to: '12prakash.sunny@gmail.com',
             from: 'noreply@ecommerce.com',
             subject: `A new order is received`,
             html: `
-            <p>Customer name:</p>
+            <p>Customer name: ${order.user.name}</p>
             <p>Total products: ${order.products.length}</p>
             <p>Total cost: ${order.amount}</p>
             <p>Login to dashboard to the order in detail.</p>
         `
         };
-        sgMail.send(emailData);
+        sgMail.send(emailDataToAdmin);
+
+        // email to buyer
+        const emailDataToBuyer = {
+            to: order.user.email,
+            from: 'noreply@ecommerce.com',
+            subject: `You order is in process`,
+            html: `
+            <h1>Hey ${req.profile.name}, Thank you for shopping with us.</h1>
+            <h2>Total products: ${order.products.length}</h2>
+            <h2>Transaction ID: ${order.transaction_id}</h2>
+            <h2>Order status: ${order.status}</h2>
+            <h2>Product details:</h2>
+            <hr />
+            ${order.products
+                    .map(p => {
+                        return `<div>
+                        <h3>Product Name: ${p.name}</h3>
+                        <h3>Product Price: ${p.price}</h3>
+                        <h3>Product Quantity: ${p.count}</h3>
+                </div>`;
+                    })
+                    .join('--------------------')}
+            <h2>Total order cost: ${order.amount}<h2>
+        `
+        };
+        sgMail
+            .send(emailDataToBuyer)
+            .then(sent => console.log('SENT data >>>', sent))
+            .catch(err => console.log('ERR data >>>', err));
         res.json(data);
     });
 };

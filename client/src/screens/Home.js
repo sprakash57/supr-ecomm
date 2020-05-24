@@ -38,7 +38,7 @@ const Home = () => {
         loadProdByArrival();
     }, [])
     return (
-        <Layout title='Home Page' description='Next-gen eComm' className='container-fluid'>
+        <Layout title='SUPR eComm' description='Here you will find all the books you need' className='container-fluid'>
             <ShowAlert error={error} />
             <Search handleAlert={showAlert} />
             <h2 className="mb-4">Best Sellers</h2>
