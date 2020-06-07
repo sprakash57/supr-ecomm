@@ -1,8 +1,7 @@
-import { API } from '../config';
 import queryString from 'query-string';
 
 export const createCategory = (userId, token, category) => {
-    return fetch(`${API}/category/create/${userId}`, {
+    return fetch(`/api/category/create/${userId}`, {
         method: 'POST',
         headers: {
             "Accept": "application/json",
@@ -16,20 +15,20 @@ export const createCategory = (userId, token, category) => {
 }
 
 export const getCategories = () => {
-    return fetch(`${API}/categories`)
+    return fetch(`/api/categories`)
         .then(response => response.json())
         .catch(err => console.log(err));
 }
 
 export const getProducts = (sortBy) => {
-    return fetch(`${API}/products?sortBy=${sortBy}&order=desc&limit=6`)
+    return fetch(`/api/products?sortBy=${sortBy}&order=desc&limit=6`)
         .then(resp => resp.json())
         .catch(err => console.log(err))
 }
 
 export const getFilteredProducts = (skip, limit, filters = {}) => {
     const data = { skip, limit, filters };
-    return fetch(`${API}/products/by/search`, {
+    return fetch(`/api/products/by/search`, {
         method: 'POST',
         headers: {
             'Accept': 'application/json',
@@ -42,20 +41,20 @@ export const getFilteredProducts = (skip, limit, filters = {}) => {
 }
 
 export const getRelatedProducts = prodId => {
-    return fetch(`${API}/products/related/${prodId}`)
+    return fetch(`/api/products/related/${prodId}`)
         .then(resp => resp.json())
         .catch(err => console.log(err))
 }
 
 export const searchList = params => {
     const query = queryString.stringify(params);
-    return fetch(`${API}/products/search?${query}`)
+    return fetch(`/api/products/search?${query}`)
         .then(resp => resp.json())
         .catch(err => console.log(err))
 }
 
 export const getBrainTreeClientToken = (userId, token) => {
-    return fetch(`${API}/payment/getToken/${userId}`, {
+    return fetch(`/api/payment/getToken/${userId}`, {
         method: 'GET',
         headers: {
             'Accept': 'application/json',
@@ -68,7 +67,7 @@ export const getBrainTreeClientToken = (userId, token) => {
 }
 
 export const processPayment = (userId, token, paymentData) => {
-    return fetch(`${API}/payment/process/${userId}`, {
+    return fetch(`/api/payment/process/${userId}`, {
         method: 'POST',
         headers: {
             'Accept': 'application/json',
@@ -82,7 +81,7 @@ export const processPayment = (userId, token, paymentData) => {
 }
 
 export const createOrder = (userId, token, orderData) => {
-    return fetch(`${API}/order/create/${userId}`, {
+    return fetch(`/api/order/create/${userId}`, {
         method: 'POST',
         headers: {
             'Accept': 'application/json',
@@ -96,7 +95,7 @@ export const createOrder = (userId, token, orderData) => {
 }
 
 export const listOrders = (userId, token) => {
-    return fetch(`${API}/order/list/${userId}`, {
+    return fetch(`/api/order/list/${userId}`, {
         method: 'GET',
         headers: {
             'Accept': 'application/json',
@@ -107,7 +106,7 @@ export const listOrders = (userId, token) => {
 }
 
 export const getStatus = (userId, token) => {
-    return fetch(`${API}/order/status/${userId}`, {
+    return fetch(`/api/order/status/${userId}`, {
         method: 'GET',
         headers: {
             'Accept': 'application/json',
@@ -118,7 +117,7 @@ export const getStatus = (userId, token) => {
 }
 
 export const updateStatus = (userId, token, orderId, status) => {
-    return fetch(`${API}/order/${orderId}/status/${userId}`, {
+    return fetch(`/api/order/${orderId}/status/${userId}`, {
         method: 'PUT',
         headers: {
             'Accept': 'application/json',
@@ -132,7 +131,7 @@ export const updateStatus = (userId, token, orderId, status) => {
 }
 
 export const readUser = (userId, token) => {
-    return fetch(`${API}/user/${userId}`, {
+    return fetch(`/api/user/${userId}`, {
         method: 'GET',
         headers: {
             'Accept': 'application/json',
@@ -145,7 +144,7 @@ export const readUser = (userId, token) => {
 }
 
 export const updateUser = (userId, token, user) => {
-    return fetch(`${API}/user/${userId}`, {
+    return fetch(`/api/user/${userId}`, {
         method: 'PUT',
         headers: {
             'Accept': 'application/json',
@@ -170,7 +169,7 @@ export const upateUserLocalInfo = (user, next) => {
 }
 
 export const getPurchaseHistory = (userId, token) => {
-    return fetch(`${API}/orders/by/user/${userId}`, {
+    return fetch(`/api/orders/by/user/${userId}`, {
         method: 'GET',
         headers: {
             'Accept': 'application/json',
@@ -185,19 +184,19 @@ export const getPurchaseHistory = (userId, token) => {
 //Admin methods for product CRUD operation
 
 export const getAllProducts = () => {
-    return fetch(`${API}/products`)
+    return fetch(`/api/products`)
         .then(resp => resp.json())
         .catch(err => console.log(err))
 }
 
 export const getOneProduct = productId => {
-    return fetch(`${API}/product/${productId}`)
+    return fetch(`/api/product/${productId}`)
         .then(resp => resp.json())
         .catch(err => console.log(err));
 }
 
 export const createProduct = (userId, token, product) => {
-    return fetch(`${API}/product/create/${userId}`, {
+    return fetch(`/api/product/create/${userId}`, {
         method: 'POST',
         headers: {
             "Accept": "application/json",
@@ -210,7 +209,7 @@ export const createProduct = (userId, token, product) => {
 }
 
 export const deleteProduct = (prodId, userId, token) => {
-    return fetch(`${API}/product/${prodId}/${userId}`, {
+    return fetch(`/api/product/${prodId}/${userId}`, {
         method: 'DELETE',
         headers: {
             'Accept': 'application/json',
@@ -223,7 +222,7 @@ export const deleteProduct = (prodId, userId, token) => {
 }
 
 export const updateProduct = (prodId, userId, token, product) => {
-    return fetch(`${API}/product/${prodId}/${userId}`, {
+    return fetch(`/api/product/${prodId}/${userId}`, {
         method: 'PUT',
         headers: {
             'Accept': 'application/json',

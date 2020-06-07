@@ -10,7 +10,7 @@ const isActive = (history, path) => {
 
 const Menu = ({ history }) => {
     return (
-        <ul className="nav nav-tabs bg-primary">
+        <ul className="nav nav-tabs bg-dark">
             <li className="nav-item">
                 <Link className="nav-link" to="/" style={isActive(history, '/')}>Home</Link>
             </li>
@@ -19,7 +19,7 @@ const Menu = ({ history }) => {
             </li>
             <li className="nav-item">
                 <Link className="nav-link" to="/cart" style={isActive(history, '/cart')}>
-                    Cart <sup><small className="cart-badge">{totalItems()}</small></sup>
+                    Cart <sup className="cart-badge"><small>{totalItems()}</small></sup>
                 </Link>
             </li>
             {isAuthenticated() && isAuthenticated().user.role === 1 ? (

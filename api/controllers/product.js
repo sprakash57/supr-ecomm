@@ -95,6 +95,8 @@ exports.listSearch = (req, res) => {
             else if (products.length === 0) return res.status(404).json({ error: 'Product does not exist' })
             res.json(products);
         }).select('-photo');
+    } else {
+        this.list(req, res);
     }
 }
 

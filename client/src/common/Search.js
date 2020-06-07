@@ -23,19 +23,17 @@ const Search = ({ handleAlert }) => {
     }
 
     const searchData = () => {
-        if (search) {
-            searchList({ search: search || undefined, category })
-                .then(resp => {
-                    if (resp.error) {
-                        handleAlert(resp.error);
-                        setData({ ...data, results: [] })
-                    }
-                    else {
-                        setData({ ...data, results: resp });
-                        handleAlert('', resp.length);
-                    }
-                })
-        }
+        searchList({ search: search || '', category })
+            .then(resp => {
+                if (resp.error) {
+                    handleAlert(resp.error);
+                    setData({ ...data, results: [] })
+                }
+                else {
+                    setData({ ...data, results: resp });
+                    handleAlert('', resp.length);
+                }
+            })
     }
 
     const handleSubmit = e => {
