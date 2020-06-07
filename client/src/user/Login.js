@@ -8,7 +8,7 @@ import Loader from '../common/Loader';
 const Login = () => {
     const { user } = isAuthenticated();
     const [fields, setFields] = useState({
-        email: 'sunny@gmail.com', password: '123456', error: '', message: '', redirectToOrigin: false, loading: false
+        email: '', password: '', error: '', message: '', redirectToOrigin: false, loading: false
     })
 
     const FeedBack = ({ error }) => {
